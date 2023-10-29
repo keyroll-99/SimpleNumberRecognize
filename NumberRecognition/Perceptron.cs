@@ -89,7 +89,7 @@ public class Perceptron
         _weights = weights.Select(x => x).ToList();
         _biasWeight = biasFromMaxLifeTime;
         
-        Console.WriteLine($"Max lifetime {maxLifeTime}");
+        Console.WriteLine($"Max lifetime for {_recognizedSymbol} is {maxLifeTime}");
         Console.WriteLine("end");
     }
 
