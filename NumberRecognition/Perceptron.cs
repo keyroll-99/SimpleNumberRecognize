@@ -1,24 +1,27 @@
+using System.Reflection;
+
 namespace NumberRecognition;
 
 public class Perceptron
 {
+    public char RecognizedSymbol { get; }
+    
     private const double LearningConst = 0.1;
     private readonly Random _random;
     private IList<double> _weights = new List<double>();
     private readonly Dictionary<char, IList<IList<int>>> _learningData = new();
-    private readonly char _recognizedSymbol;
     private double _biasWeight;
     private readonly double _threshold;
-    
-    
+
+
     public Perceptron(char recognizedSymbol, int imageWidth = 5, int imageHeight = 7)
     {
         _random = new Random();
-        _recognizedSymbol = recognizedSymbol;
+        RecognizedSymbol = recognizedSymbol;
         _biasWeight = _random.NextDouble() * 2 - 1;
         for (var i = 0; i < (imageHeight * imageWidth); i++)
         {
-            var randomWeight = _random.NextDouble() * 2 -1;
+            var randomWeight = _random.NextDouble() * 2 - 1;
             _weights.Add(randomWeight);
         }
 
@@ -27,12 +30,12 @@ public class Perceptron
 
     public override string ToString()
     {
-        return $"-{_recognizedSymbol}-";
+        return $"-{RecognizedSymbol}-";
     }
 
     public void Train()
     {
-        Console.WriteLine($"Train {_recognizedSymbol}");
+        Console.WriteLine($"Train {RecognizedSymbol}");
         LoadLearningData();
 
         var i = 0L;
@@ -45,9 +48,8 @@ public class Perceptron
             var learningChar = GetLearningChar();
             var learningIndex = RandomNextIndexOfLearningData(learningChar);
             var learningCase = _learningData[learningChar][learningIndex];
-           // Console.WriteLine($"Study case {learningChar}:{learningIndex}");
-            
-            var target = learningChar == _recognizedSymbol ? 1 : 0;
+
+            var target = learningChar == RecognizedSymbol ? 1 : 0;
             var error = GetError(learningCase, target);
             if (error == 0)
             {
@@ -67,18 +69,14 @@ public class Perceptron
                 {
                     _weights[index] += error * LearningConst * learningCase[index];
                 }
+
                 _biasWeight += LearningConst * error;
                 currentLifeTime = 0;
             }
-            
-            // Console.WriteLine($"{_recognizedSymbol}:{i++}");
+
             i++;
-            if (i % 100_000_000 == 0)
-            {
-                Console.WriteLine($"{learningChar}:{i}");
-            }
         }
-        
+
         if (currentLifeTime > maxLifeTime)
         {
             maxLifeTime = currentLifeTime;
@@ -88,8 +86,8 @@ public class Perceptron
 
         _weights = weights.Select(x => x).ToList();
         _biasWeight = biasFromMaxLifeTime;
-        
-        Console.WriteLine($"Max lifetime for {_recognizedSymbol} is {maxLifeTime}");
+
+        Console.WriteLine($"Max lifetime for {RecognizedSymbol} is {maxLifeTime}");
         Console.WriteLine("end");
     }
 
@@ -99,7 +97,7 @@ public class Perceptron
         {
             throw new ArgumentException();
         }
-        
+
         double sum = 0;
         for (int i = 0; i < data.Count; i++)
         {
@@ -111,15 +109,18 @@ public class Perceptron
         return sum >= _threshold ? 1 : 0;
     }
 
-    private int  GetError(IList<int> input, int target)
+    private int GetError(IList<int> input, int target)
     {
         var guess = Predict(input);
         return target - guess;
     }
-    
+
     private void LoadLearningData()
     {
-        var files = Directory.EnumerateFiles(".\\Numbers");
+        var path = Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location);
+        
+        
+        var files = Directory.EnumerateFiles($"{path}{Path.DirectorySeparatorChar}Numbers");
 
         foreach (var file in files)
         {
@@ -134,7 +135,7 @@ public class Perceptron
         }
     }
 
-    private IList<int> ParseImage(string file)
+    private static IList<int> ParseImage(string file)
     {
         var image = Image.Load<Rgba32>(file);
         var parseImageData = new List<int>();
