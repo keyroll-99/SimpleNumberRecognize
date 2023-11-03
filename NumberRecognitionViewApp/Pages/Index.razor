@@ -3,6 +3,7 @@
 @using NumberRecognitionViewApp.Data
 @inject NumberRecognitionService NumberRecognitionService
 
+<div class="index-container">
 <h1>Recognize number</h1>
 <div class="content">
     <div class="board">
@@ -41,16 +42,22 @@
         <button @onclick="Train">Train</button>
         <button @onclick="Recoginze">Predict</button>
         
-        @foreach (var symbol in _recognized)
-        {
-            <span>@symbol</span>
-        }
+        <div class="result-container">
+            Predictions: 
+            @foreach (var symbol in _recognized)
+            {
+                <span>@symbol,</span>
+            }
+        </div>
+
         
     </div>
+    <div>
     @if (_isLearning)
     {
         <span>training...</span>
     }
+    </div>
 
 </div>
 
@@ -94,3 +101,4 @@
         _recognized = NumberRecognitionService.Recognize(_board);
     }
 }
+</div>
