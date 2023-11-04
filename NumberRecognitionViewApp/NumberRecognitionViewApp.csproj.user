@@ -6,7 +6,12 @@
     <ActiveDebugProfile>Windows Machine</ActiveDebugProfile>
     <UapAppxPackageBuildMode>SideloadOnly</UapAppxPackageBuildMode>
     <AppxShowAllApps>False</AppxShowAllApps>
-    <_LastSelectedProfileId>MSIX-win10-x862.pubxml</_LastSelectedProfileId>
+    <_LastSelectedProfileId>E:\AI\Perceptron\NumberRecognitionViewApp\Properties\PublishProfiles\MSIX-win10-x86.pubxml</_LastSelectedProfileId>
     <PackageOptionalProjectsInIdeBuilds>False</PackageOptionalProjectsInIdeBuilds>
+    <SelectedPlatformGroup>Emulator</SelectedPlatformGroup>
+    <DefaultDevice>Android_Emulator_33</DefaultDevice>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android|AnyCPU'">
+    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>
