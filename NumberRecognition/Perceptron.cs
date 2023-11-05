@@ -43,7 +43,7 @@ public class Perceptron
         var currentLifeTime = 0;
         var weights = new List<double>();
         var biasFromMaxLifeTime = 0D;
-        while (i <= 1_000_000)
+        while (i <= 5_000)
         {
             var learningChar = GetLearningChar();
             var learningIndex = RandomNextIndexOfLearningData(learningChar);
