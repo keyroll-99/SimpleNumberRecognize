@@ -13,7 +13,7 @@ public class NumberRecognitionService
         // 57 - 9 in ASCII
         for (var i = 48; i <= 57; i++)
         {
-            var perceptron = new Perceptron((char)i, 5, 5);
+            var perceptron = new Perceptron((char)i);
             _perceptrons.Add(perceptron);
         }
     }
