@@ -43,14 +43,24 @@ public class Perceptron
         var currentLifeTime = 0;
         var weights = new List<double>();
         var biasFromMaxLifeTime = 0D;
-        while (i <= 15_000)
+        while (i <= 10_000)
         {
             var learningChar = GetLearningChar();
             var learningIndex = RandomNextIndexOfLearningData(learningChar);
             var learningCase = _learningData[learningChar][learningIndex];
 
             var target = learningChar == RecognizedSymbol ? 1 : 0;
-            var error = GetError(learningCase, target);
+            var error = 0;
+            try
+            {
+                error = GetError(learningCase, target);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
             if (error == 0)
             {
                 currentLifeTime++;

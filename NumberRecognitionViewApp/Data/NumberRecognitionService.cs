@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using NumberRecognition;
 
 namespace NumberRecognitionViewApp.Data;
@@ -13,7 +16,7 @@ public class NumberRecognitionService
         // 57 - 9 in ASCII
         for (var i = 48; i <= 57; i++)
         {
-            var perceptron = new Perceptron((char)i);
+            var perceptron = new Perceptron((char)i, 5, 5);
             _perceptrons.Add(perceptron);
         }
     }
